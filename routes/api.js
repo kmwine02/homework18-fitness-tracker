@@ -16,9 +16,10 @@ router.put("/workouts/:id", (req, res) => {
 });
 
 router.get("/workouts", (req, res) => {
-  console.log("here");
-  Workout.find({})
-    .sort({ day: -1 })
+  Workout.aggregate([
+    { $match: { _id: { $exists: true } } },
+    { $addFields: { totalDuration: { $sum: "$exercises.duration" } } },
+  ])
     .then((dbTransaction) => {
       console.dir(dbTransaction);
       res.json(dbTransaction);
