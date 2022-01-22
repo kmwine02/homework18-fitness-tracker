@@ -1,12 +1,21 @@
 const express = require("express");
 const router = require("express").Router();
+const path = require("path");
 
-router.get("/exercise", async (req, res) => {
-  res.status(200).redirect("./exercise.html");
+router.get("/exercise?id=:id", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/exercise.html"));
 });
 
-router.get("/stats", async (req, res) => {
-  res.status(200).redirect("./stats.html");
+router.get("/exercise", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/exercise.html"));
+});
+
+router.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/stats.html"));
+});
+
+router.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 module.exports = router;
